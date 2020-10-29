@@ -1,40 +1,87 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Auth Test</title>
-</head>
-
-<body>
-  <main>
-
-    <a id="oauth" href="#">Login</a>
-
-  </main>
-
-  <script>
-
-    let URL = "https://github.com/login/oauth/authorize";
-
-    let options = {
-      client_id: '35e8de24061ca19f4296',
-      redirect_uri: 'http://localhost:3000/oauth',
-      scope: 'read:user',
-      state: 'asldfjdfs'
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <title>Document</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Vampiro+One&display=swap');
+    html {
+      background: url(https://i.pinimg.com/originals/f6/20/a1/f620a179ca1acfd15a0754701677fb58.jpg) no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
     }
-
-    let QueryString = Object.keys(options).map((key) => {
-      return `${key}=` + encodeURIComponent(options[key]);
+    #form-container {
+      margin: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 500px;
+      height: 500px;
+      /* Need a specific value to work */
+      padding: 3%;
+      background: url(https://s3.envato.com/files/3a6e02dc-2769-456d-a9d7-248ffe6d4005/inline_image_preview.jpg) no-repeat center center fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+    h1,
+    h2 {
+      text-align: center;
+      background-color: none;
+      font-family: 'Vampiro One', cursive;
+    }
+  </style>
+</head>
+<body>
+  <section id='section1'>
+    <div id='form-container'>
+      <h1>Welcome</h1>
+      <h2>401 Lab</h2>
+      <form id='signIn'>
+        <div class="form-group">
+          <label for="username1">username</label>
+          <input type="username" class="form-control" id="exampleInputUser" aria-describedby="userHelp">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <button type="submit" class="btn btn-info">Sing Up</button>
+        <button type="submit" class="btn btn-dark">Sign In</button>
+        <button class="btn btn-dark">
+          <a id="oauth">
+            Login with Github
+          </a>
+        </button>
+      </form>
+    </div>
+  </section>
+  <!-- This is our oath workflow  -->
+  <script>
+    // STEP 1 & 2 user says they want to use Oauth aaand they sign in using the Providers auth form
+    let URL = "https://api.login.yahoo.com/oauth2/request_auth"; // this will specific to the Auth service
+    let options = {
+      client_id: "dj0yJmk9a0szYnBFVXEzWHFRJmQ9WVdrOVEwaDZWV3N3TTJRbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWUx", // client Id from your oauth privder
+      response_type: "code",
+      redirect_uri: "oob",
+      // redirect_uri: "https://localhost:3000/oauth", // make sure this matches the callback / redirect url that the Oauth app form asks for
+      scope: "openid profile",
+      nonce: "2762b2550b993376c4b7c547fdedaebf3f3cd8ef"// this could be different depending on the provider, something about what data you're asking should be present
+      // state: '401userconsent' // this is specific to github.
+    }
+    let QueryString = Object.keys(options).map(key => {
+      return `${key}=${encodeURIComponent(options[key])}`;
     }).join("&");
-
     let authURL = `${URL}?${QueryString}`;
-
+    console.log(authURL);
     let link = document.getElementById('oauth');
     link.setAttribute('href', authURL);
-
   </script>
-
-
-</body>
-
-</html>
